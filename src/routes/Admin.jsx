@@ -1,7 +1,7 @@
-import blogFatch from '../axios/config'
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import './Admin.css'
+import blogFatch from '../axios/config';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import './Admin.css';
 
 const Admin = () => {
     const [posts, setPosts] = useState([]);
@@ -21,8 +21,16 @@ const Admin = () => {
         getPost();
     }, []);
 
-  return (
-    <div className="admin">
+    const deletePost = async (id) => {
+        await blogFatch.delete(`/posts/${id}`);
+
+        const filteredPosts = posts.filter((post)=> (post.id != id))
+
+        setPosts(filteredPosts)
+    };
+
+    return (
+        <div className="admin">
             <h1>Gerenciar Posts</h1>
             {posts.length === 0 ? (
                 <p>Carregando...</p>
@@ -31,14 +39,19 @@ const Admin = () => {
                     <div className="post" key={post.id}>
                         <h2>{post.title}</h2>
                         <div className="actions">
-                            <Link className='btn edit-btn'>Editar</Link>
-                            <button className='btn delete-btn'>Excluir</button>
+                            <Link to={`/admin/edit/${post.id}`} className="btn edit-btn">Editar</Link>
+                            <button
+                                className="btn delete-btn"
+                                onClick={() => deletePost(post.id)}
+                            >
+                                Excluir
+                            </button>
                         </div>
                     </div>
                 ))
             )}
         </div>
-  )
-}
+    );
+};
 
-export default Admin
+export default Admin;
