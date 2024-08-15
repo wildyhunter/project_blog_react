@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import blogFatch from '../axios/config';
 
 const EditPost = () => {
     const [title, setTitle] = useState('');
@@ -23,6 +24,15 @@ const EditPost = () => {
         getPost(id);
     }, []);
 
+    const editPost = async (e) => {
+        e.preventDefault();
+        const post = { title, body };
+        await blogFatch.put(`/posts/${id}`, {
+            body: post,
+        });
+        navigate('/');
+    };
+
     return (
         <div className="new-post">
             <h2>Editando: {title}</h2>
@@ -44,10 +54,11 @@ const EditPost = () => {
                         name="body"
                         id="area"
                         placeholder="Digite o conteudo"
-                    onChange={(e) => setBody(e.target.value)}
+                        onChange={(e) => setBody(e.target.value)}
+                        value={body || ''}
                     ></textarea>
                 </div>
-                <input type="submit" value={'Criar Post'} className="btn" />
+                <input type="submit" value={'Editar Post'} className="btn" />
             </form>
         </div>
     );
