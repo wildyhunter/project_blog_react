@@ -10,7 +10,7 @@ import NewPost from './routes/NewPost.jsx';
 
 const router = createBrowserRouter([
     {
-        Element: <App />,
+        element: <App />,
         children: [
             {
                 path: '/',
