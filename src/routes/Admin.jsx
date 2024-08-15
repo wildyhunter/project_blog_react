@@ -1,10 +1,9 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import blogFatch from '../axios/config';
-import './Home.css';
+import blogFatch from '../axios/config'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import './Admin.css'
 
-const Home = () => {
+const Admin = () => {
     const [posts, setPosts] = useState([]);
 
     const getPost = async () => {
@@ -22,24 +21,24 @@ const Home = () => {
         getPost();
     }, []);
 
-    return (
-        <div className="home">
-            <h1>Ultimos Posts</h1>
+  return (
+    <div className="admin">
+            <h1>Gerenciar Posts</h1>
             {posts.length === 0 ? (
                 <p>Carregando...</p>
             ) : (
                 posts.map((post) => (
                     <div className="post" key={post.id}>
                         <h2>{post.title}</h2>
-                        <p>{post.body}</p>
-                        <Link to={`/post/${post.id}`} className="btn">
-                            Ler mais...
-                        </Link>
+                        <div className="actions">
+                            <Link className='btn edit-btn'>Editar</Link>
+                            <button className='btn delete-btn'>Excluir</button>
+                        </div>
                     </div>
                 ))
             )}
         </div>
-    );
-};
+  )
+}
 
-export default Home;
+export default Admin
